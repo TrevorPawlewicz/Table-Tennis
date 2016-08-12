@@ -1,4 +1,4 @@
 # Table-Tennis
 Old school pong game using JavaScipt & Canvas.
 
-![Image](pong.png?raw=true)
+![Image](pong.jpg?raw=true)

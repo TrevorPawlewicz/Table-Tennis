@@ -9,18 +9,7 @@ var ballSpeedY = 4;
 var paddle1Y = 250;
 const PADDLE_HEIGHT = 100;
 
-function calculateMousePos(event) {
-    var rect = canvas.getBoundingClientRect();
-    var root = document.documentElement;
-    var mouseX = event.clientX - rect.left - root.scrollLeft;
-    var mouseY = event.clientY - rect.top - root.scrollTop;
-
-    return {
-        x: mouseX,
-        y: mouseY
-    }
-}
-
+//-----------------------------------------------------------------------------
 window.onload = function(){
     console.log("window loaded -- javascript!");
 
@@ -37,6 +26,24 @@ window.onload = function(){
         var mousePos = calculateMousePos(event);
         paddle1Y = mousePos.y - (PADDLE_HEIGHT/2); // center pointer to paddle
     });
+}
+//-----------------------------------------------------------------------------
+function ballReset() {
+    // center ball in middle of screen
+    ballX = canvas.width/2;
+    ballY = canvas.height/2;
+};
+
+function calculateMousePos(event) {
+    var rect = canvas.getBoundingClientRect();
+    var root = document.documentElement;
+    var mouseX = event.clientX - rect.left - root.scrollLeft;
+    var mouseY = event.clientY - rect.top - root.scrollTop;
+
+    return {
+        x: mouseX,
+        y: mouseY
+    }
 }
 
 function moveEverything() {

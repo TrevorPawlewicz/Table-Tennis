@@ -3,7 +3,7 @@ var canvas;
 var canvasContext;
 var ballX = 50;
 var ballY = 0;
-var ballSpeedX = 5;
+var ballSpeedX = 10;
 
 window.onload = function(){
     console.log("window loaded -- javascript!");
@@ -18,19 +18,25 @@ window.onload = function(){
     }, 1000/framesPerSecond);
 }
 
+function moveEverything() {
+    ballX = ballX + ballSpeedX;
+
+    if ((ballX >= canvas.width) || (ballX < 0)) {
+        ballSpeedX = - ballSpeedX;
+    }
+};
+
 
 function drawEverything(){
     // shape order determines the Z axis (first is background, last is front)
-    canvasContext.fillStyle = 'black';
-    //                     x, y, width,        height
-    canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-    canvasContext.fillStyle = 'white';
-    canvasContext.fillRect(0, 210, 10, 100);
-    canvasContext.fillStyle = 'red';
-    canvasContext.fillRect(ballX, 100, 10, 10);
-}
+    //-----------------------------------------------------------------------
+    //        x, y, width,        height,         color
+    colorRect(0, 0, canvas.width, canvas.height, 'black'); // canvas
+    colorRect(0, 210, 10, 100, 'white'); // left paddle
+    colorRect(ballX, 100, 10, 10, 'red'); // ball
+};
 
-function moveEverything() {
-    ballX = ballX + 5;
-    ballSpeedX = ballSpeedX + 1;
-}
+function colorRect(leftX, topY, width, height, drawColor) {
+    canvasContext.fillStyle = drawColor;
+    canvasContext.fillRect(leftX, topY, width, height);
+};

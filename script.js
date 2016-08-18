@@ -19,8 +19,10 @@ const PADDLE_WIDTH = 10;
 
 //-----------------------------------------------------------------------------
 window.onload = function(){
-    console.log("window loaded -- javascript!");
+    initGame();
+} //---------------------------------------------------------------------------
 
+function initGame() {
     canvas = document.getElementById('gameCanvas'); // index.html
     canvasContext = canvas.getContext('2d');
 
@@ -36,8 +38,7 @@ window.onload = function(){
         var mousePos = calculateMousePos(event);
         paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2); // center pointer to paddle
     });
-}
-//-----------------------------------------------------------------------------
+};
 
 function handleMouseClick(event) {
     if (showingWinScreen){
@@ -86,6 +87,7 @@ function computerMovement() {
 };
 
 function moveEverything() {
+
     if (showingWinScreen) {
         return;
     }
@@ -152,8 +154,7 @@ function drawEverything(){
         return;
     }
 
-
-    drawNet();
+    drawNet(); // seperate function
 
     colorRect(0, paddle1Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // left paddle
     colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // right paddle

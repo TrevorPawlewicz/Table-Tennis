@@ -135,18 +135,20 @@ function drawEverything(){
     //        x, y, width,        height,         color
     colorRect(0, 0, canvas.width, canvas.height, 'black'); // canvas
 
+    canvasContext.font = 'normal 50pt Audiowide';
+
     if (showingWinScreen) {
         canvasContext.fillStyle = "white";
 
         if (player1Score >= WINNING_SCORE) {
-            canvasContext.fillText("Left Player Won!", 350, 200);
+            canvasContext.fillText("Left Player Won!", 80, 200);
         } else if (player2Score >= WINNING_SCORE) {
-            canvasContext.fillText("Right Player Won!", 350, 200);
+            canvasContext.fillText("Right Player Won!", 80, 200);
         } else {
             canvasContext.fillText("TIE", 350, 200);
         }
 
-        canvasContext.fillText("Click to Continue", 400, 500);
+        canvasContext.fillText("Click to Continue", 80, 500);
         return;
     }
 
@@ -157,8 +159,8 @@ function drawEverything(){
     colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // right paddle
     colorCircle(ballX, ballY, 10, 'white'); // draw circle
 
-    canvasContext.fillText(player1Score, 100, 100);
-    canvasContext.fillText(player2Score, 700, 100);
+    canvasContext.fillText(player1Score, 160, 60);
+    canvasContext.fillText(player2Score, 570, 60);
 }; //--------------------------------------------------------------------------
 
 function colorCircle(centerX, centerY, radius, drawColor){

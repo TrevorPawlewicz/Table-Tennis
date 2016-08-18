@@ -6,6 +6,9 @@ var ballY = 50;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
+var player1Score = 0;
+var player2Score = 0;
+
 var paddle1Y = 250;
 var paddle2Y = 250;
 const PADDLE_HEIGHT = 100;
@@ -26,17 +29,18 @@ window.onload = function(){
 
     canvas.addEventListener('mousemove', function(event){
         var mousePos = calculateMousePos(event);
-        paddle1Y = mousePos.y - (PADDLE_HEIGHT/2); // center pointer to paddle
+        paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2); // center pointer to paddle
     });
 }
 //-----------------------------------------------------------------------------
+
 function ballReset() {
     // center ball in middle of screen
     ballX = canvas.width/2;
     ballY = canvas.height/2;
 
     ballSpeedX = - ballSpeedX;
-};
+}; //--------------------------------------------------------------------------
 
 function calculateMousePos(event) {
     var rect = canvas.getBoundingClientRect();
@@ -48,11 +52,25 @@ function calculateMousePos(event) {
         x: mouseX,
         y: mouseY
     }
-}
+}; //--------------------------------------------------------------------------
+
+// left paddle movement
+function computerMovement() {
+    var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT / 2); // center ball hit
+
+    // ignore chasing ball while its outside a 35 px area of center
+    if (paddle2YCenter < (ballY - 35)) {
+        paddle2Y += 6;
+    } else if (paddle2YCenter > (ballY + 35)) {
+        paddle2Y -= 6;
+    }
+};
 
 function moveEverything() {
-    ballX = ballX + ballSpeedX;
-    ballY = ballY + ballSpeedY;
+    computerMovement(); // move left paddle func call
+
+    ballX += ballSpeedX;
+    ballY += ballSpeedY;
 
     // left paddle hit or miss
     if (ballX > canvas.width) {
@@ -60,6 +78,7 @@ function moveEverything() {
             ballSpeedX = - ballSpeedX;
         } else {
             ballReset();
+            player1Score++;
         }
     }
     // right paddle hit or miss
@@ -68,12 +87,14 @@ function moveEverything() {
             ballSpeedX = - ballSpeedX;
         } else {
             ballReset();
+            player2Score++;
         }
     }
+    // top or bottom canvas area border
     if ((ballY > canvas.height) || (ballY < 0)) {
         ballSpeedY = - ballSpeedY;
     }
-};
+}; //--------------------------------------------------------------------------
 
 function drawEverything(){
     // shape order determines the Z axis (first is background, last is front)
@@ -83,16 +104,21 @@ function drawEverything(){
     colorRect(0, paddle1Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // left paddle
     colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // right paddle
     colorCircle(ballX, ballY, 10, 'white'); // draw circle
-};
+
+    canvasContext.fillText(player1Score, 100, 100);
+    canvasContext.fillText(player2Score, 700, 100);
+}; //--------------------------------------------------------------------------
 
 function colorCircle(centerX, centerY, radius, drawColor){
     canvasContext.fillStyle = drawColor;
     canvasContext.beginPath();
     canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
     canvasContext.fill();
-};
+}; //--------------------------------------------------------------------------
 
 function colorRect(leftX, topY, width, height, drawColor) {
     canvasContext.fillStyle = drawColor;
     canvasContext.fillRect(leftX, topY, width, height);
-};
+}; //--------------------------------------------------------------------------
+
+console.log("js loaded!");

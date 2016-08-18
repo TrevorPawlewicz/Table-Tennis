@@ -7,7 +7,9 @@ var ballSpeedX = 10;
 var ballSpeedY = 4;
 
 var paddle1Y = 250;
+var paddle2Y = 250;
 const PADDLE_HEIGHT = 100;
+const PADDLE_WIDTH = 10;
 
 //-----------------------------------------------------------------------------
 window.onload = function(){
@@ -32,6 +34,8 @@ function ballReset() {
     // center ball in middle of screen
     ballX = canvas.width/2;
     ballY = canvas.height/2;
+
+    ballSpeedX = - ballSpeedX;
 };
 
 function calculateMousePos(event) {
@@ -50,10 +54,23 @@ function moveEverything() {
     ballX = ballX + ballSpeedX;
     ballY = ballY + ballSpeedY;
 
-    if ((ballX >= canvas.width) || (ballX < 0)) {
-        ballSpeedX = - ballSpeedX;
+    // left paddle hit or miss
+    if (ballX > canvas.width) {
+        if ((ballY > paddle2Y) && (ballY < paddle2Y + PADDLE_HEIGHT)) {
+            ballSpeedX = - ballSpeedX;
+        } else {
+            ballReset();
+        }
     }
-    if ((ballY >= canvas.height) || (ballY < 0)) {
+    // right paddle hit or miss
+    if (ballX < 0) {
+        if ((ballY > paddle1Y) && (ballY < paddle1Y + PADDLE_HEIGHT)) {
+            ballSpeedX = - ballSpeedX;
+        } else {
+            ballReset();
+        }
+    }
+    if ((ballY > canvas.height) || (ballY < 0)) {
         ballSpeedY = - ballSpeedY;
     }
 };
@@ -63,7 +80,8 @@ function drawEverything(){
     //-----------------------------------------------------------------------
     //        x, y, width,        height,         color
     colorRect(0, 0, canvas.width, canvas.height, 'black'); // canvas
-    colorRect(0, paddle1Y, 10, PADDLE_HEIGHT, 'white'); // left paddle
+    colorRect(0, paddle1Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // left paddle
+    colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, PADDLE_HEIGHT, 'white'); // right paddle
     colorCircle(ballX, ballY, 10, 'white'); // draw circle
 };
 
